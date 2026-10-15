@@ -27,6 +27,18 @@ If you find the value that draws your controller's own glyphs, [open an issue](h
 
 </Tip>
 
+## If a stick or button does the wrong thing
+
+Cordial works out which stick and button is which from what the kernel says your pad has, so a pad with digital triggers or no analogue ones should be read correctly. If one still is not, open an issue with these three lines from a terminal (use `js1` and so on for another pad):
+
+```bash
+cat /sys/class/input/js0/device/name
+cat /sys/class/input/js0/device/capabilities/abs
+cat /sys/class/input/js0/device/capabilities/key
+```
+
+Starting Cordial with `CORDIAL_TRACE_GAMEPAD=1` also prints the Android code each axis and button was given.
+
 ## Rumble
 
 There is no rumble. That is deliberate: a rumble call that silently does nothing is worse than none.
