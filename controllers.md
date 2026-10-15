@@ -11,6 +11,20 @@ Controller support is on by default. Cordial reads your pad from `/dev/input/js*
 
 </Warning>
 
+## In the Flatpak
+
+The Flatpak could not see controllers at all before the release after 0.27.0: its sandbox had no `/dev/input`. The manifest now grants `--device=input`, which exposes that directory and nothing else in `/dev`. It also exposes the event nodes of keyboards and mice, as far as your own file permissions allow, because Flatpak has no grant for the pad alone.
+
+If you installed 0.27.0 or earlier and want a pad now, give it the permission yourself:
+
+```bash
+flatpak override --user --device=input io.github.luohoa97.Cordial
+```
+
+Flatpak older than 1.15.6, which is what Ubuntu 24.04 and Debian 12 ship, does not know `input` and refuses that command. Use `--device=all` there instead; it is wider and the only grant that old versions have. A newer Flatpak installing a Cordial release that carries the grant needs nothing.
+
+Checked: `flatpak run --device=input` makes `/dev/input` appear in the sandbox. **INFERRED:** a pad then works there; no pad was attached for that check.
+
 ## If the glyphs look wrong
 
 Try other values, then press a button on the pad. Roblox is reported (a user report, not a measurement) to change its glyph set when an input is used, not when the pad connects.
